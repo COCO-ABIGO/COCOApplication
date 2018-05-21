@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.kakao.auth.Session;
 
 import proj.abigo.coco.cocoapplication.Bluetooth.BluetoothService;
+import proj.abigo.coco.cocoapplication.MyFeed.MyFeedFragment;
 
 import static com.kakao.usermgmt.StringSet.nickname;
 
@@ -26,7 +27,7 @@ public class BluetoothActivity extends AppCompatActivity {
 
     TextView nameView;
     ImageView imgView;
-    Button btnBtConnect;
+    Button btnBtConnect, btnBtStart;
 
     private static final boolean D = true;
 
@@ -68,7 +69,7 @@ public class BluetoothActivity extends AppCompatActivity {
     private void initView() {
 
             btnBtConnect = (Button)findViewById(R.id.btnBtConnect);
-
+            btnBtStart = (Button)findViewById(R.id.btnBtStart);
         }
 
     private final Handler handler = new Handler(){
@@ -134,6 +135,15 @@ public class BluetoothActivity extends AppCompatActivity {
                 }else{
                     finish();
                 }
+            }
+        });
+
+        btnBtStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(BluetoothActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
             }
         });
     }
