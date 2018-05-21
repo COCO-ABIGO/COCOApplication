@@ -1,5 +1,6 @@
 package proj.abigo.coco.cocoapplication;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
@@ -7,6 +8,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.KeyEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import proj.abigo.coco.cocoapplication.MyFeed.MyFeedFragment;
@@ -17,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout main_tabLayout;
     private boolean mFlag = false;
 
+    Button btnBTAddFriend;
     MyFeedFragment myFeedFragment = new MyFeedFragment();
     MyPageFragment myPageFragment = new MyPageFragment();
 
@@ -69,6 +73,16 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+        btnBTAddFriend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FriendAddActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
     }
 
     private void changeFragment(int position, int pre){
@@ -123,5 +137,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         main_tabLayout = (TabLayout)findViewById(R.id.main_tabLayout);
+        btnBTAddFriend =(Button)findViewById(R.id.btnBTAddFriend);
     }
 }

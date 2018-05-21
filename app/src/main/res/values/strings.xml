@@ -1,10 +1,9 @@
 <resources>
     <string name="app_name">COCO</string>
     <string name="kakao_app_key">8265b18aa37222232ebcadb9e3be8ded</string>
-    <!--
     <string name="kakao_scheme">kakao8265b18aa37222232ebcadb9e3be8ded</string>
     <string name="kakaolink_host">kakaolink</string>
-    -->
+
     <!--  BluetoothChat -->
     <string name="send">Send</string>
     <string name="not_connected">You are not connected to a device</string>
