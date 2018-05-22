@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "508105352791",
+    "firebase_url": "https://coco-abigo.firebaseio.com",
+    "project_id": "coco-abigo",
+    "storage_bucket": "coco-abigo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508105352791:android:085cce2c4c55e39d",
+        "android_client_info": {
+          "package_name": "proj.abigo.coco.cocoapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508105352791-pvk8orekduiikvsfi9n6eiabsk9l283f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZTGqOERKim_dTH_JIzCJUaGds8INl9JY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

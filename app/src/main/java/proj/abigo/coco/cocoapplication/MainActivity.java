@@ -7,10 +7,13 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import proj.abigo.coco.cocoapplication.MyFeed.MyFeedFragment;
 import proj.abigo.coco.cocoapplication.MyPage.MyPageFragment;
@@ -20,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout main_tabLayout;
     private boolean mFlag = false;
 
-    Button btnBTAddFriend;
+    Button btnBTAddFriend, btnBTAlarm;
     MyFeedFragment myFeedFragment = new MyFeedFragment();
     MyPageFragment myPageFragment = new MyPageFragment();
 
@@ -33,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        FirebaseInstanceId.getInstance().getToken();
+
+        String token = FirebaseInstanceId.getInstance().getToken();
+        Log.d("FCM_Token", token);
 
         /* 피드를 기본화면으로 설정*/
         if(savedInstanceState == null){
@@ -78,6 +86,15 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, FriendAddActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
+        btnBTAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
                 startActivity(intent);
                 finish();
             }
@@ -138,5 +155,6 @@ public class MainActivity extends AppCompatActivity {
     private void initView() {
         main_tabLayout = (TabLayout)findViewById(R.id.main_tabLayout);
         btnBTAddFriend =(Button)findViewById(R.id.btnBTAddFriend);
+        btnBTAlarm = (Button)findViewById(R.id.btnBTAlarm);
     }
 }
