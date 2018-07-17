@@ -12,12 +12,15 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.kakao.auth.Session;
 
+import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import proj.abigo.coco.cocoapplication.Bluetooth.BluetoothService;
 import proj.abigo.coco.cocoapplication.MyFeed.MyFeedFragment;
 
@@ -25,9 +28,12 @@ import static com.kakao.usermgmt.StringSet.nickname;
 
 public class BluetoothActivity extends AppCompatActivity {
 
-    TextView nameView;
-    ImageView imgView;
-    Button btnBtConnect, btnBtStart;
+    TextView txtName;
+    ImageView img_user;
+    EditText editName;
+    Button btnBtConnect;
+
+    private String user_id, user_name, user_img;
 
     private static final boolean D = true;
 
@@ -43,34 +49,44 @@ public class BluetoothActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth);
 
-        nameView = (TextView) findViewById(R.id.NickName);
-        imgView = (ImageView)findViewById(R.id.ProfileImg);
-
-        // Get nameView.setText(NickName+"님 환영합니다.");the message from the intent
-        Intent intent = getIntent();
-        String USERID = intent.getStringExtra(LoginActivity.USER_ID);
-        String NickName = intent.getStringExtra(LoginActivity.NICKNAME);
-        String ProfileImg = intent.getStringExtra(LoginActivity.PROFILE_IMG);
-
-        nameView.setText(NickName+"님 환영합니다.");
-
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize =2;
-        Bitmap bm  = BitmapFactory.decodeFile(ProfileImg, options);
-        imgView.setImageBitmap(bm);
-
         initView();
-        if(btService == null){
-            btService = new BluetoothService(this, handler);
-        }
+        setView();
         setEvent();
     }
 
-    private void initView() {
+    private void setView() {
 
-            btnBtConnect = (Button)findViewById(R.id.btnBtConnect);
-            btnBtStart = (Button)findViewById(R.id.btnBtStart);
+        Intent intent = getIntent();
+        user_id = intent.getStringExtra("user_id");
+        user_name = intent.getStringExtra("user_name");
+        user_img = intent.getStringExtra("user_img");
+
+        editName.setText(user_name);
+
+        Glide
+                .with(this)
+                .load(user_img)
+                .fitCenter()
+                .centerCrop()
+                .crossFade()
+                .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                .override(200,200)
+                .into(img_user);
+
+
+        if(btService == null){
+            btService = new BluetoothService(this, handler);
         }
+
+
+    }
+
+    private void initView() {
+        txtName = (TextView) findViewById(R.id.txtName);
+        img_user = (ImageView)findViewById(R.id.img_user);
+        editName = (EditText)findViewById(R.id.editName);
+        btnBtConnect = (Button)findViewById(R.id.btnBtConnect);
+    }
 
     private final Handler handler = new Handler(){
 
@@ -85,7 +101,10 @@ public class BluetoothActivity extends AppCompatActivity {
                     switch (msg.arg1){
                         case BluetoothService.STATE_CONNECTED :
                             Toast.makeText(getApplicationContext(), "블루투스 연결에 성공하였습니다.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(BluetoothActivity.this, MainActivity.class);
+                            Intent intent = new Intent(BluetoothActivity.this, setGoalActivitiy.class);
+                            intent.putExtra("user_id", user_id);
+                            intent.putExtra("user_name", user_name);
+                            intent.putExtra("user_img", user_img);
                             startActivity(intent);
                             break;
                         case BluetoothService.STATE_FAIL:
@@ -135,15 +154,6 @@ public class BluetoothActivity extends AppCompatActivity {
                 }else{
                     finish();
                 }
-            }
-        });
-
-        btnBtStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(BluetoothActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
             }
         });
     }

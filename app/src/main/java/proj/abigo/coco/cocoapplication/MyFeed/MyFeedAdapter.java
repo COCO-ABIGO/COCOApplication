@@ -48,7 +48,7 @@ public class MyFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         /* todo / feed 데이터 받아와서 보여주는 작업업 */
        viewHolder.txt_user_name.setText(feed.getUser_name());
-       viewHolder.txt_savings.setText(feed.getSavings());
+       viewHolder.txt_savings.setText(feed.getSavingMoney());
     }
 
     @Override
@@ -69,7 +69,7 @@ public class MyFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             cardView = (CardView)itemView.findViewById(R.id.cardView);
             img_user = (ImageView)view.findViewById(R.id.img_user);
             txt_user_name = (TextView)view.findViewById(R.id.txt_user_name);
-            txt_savings = (TextView)view.findViewById(R.id.txt_savings);
+            txt_savings = (TextView)view.findViewById(R.id.txt_savingMoney);
             txt_save_date = (TextView)view.findViewById(R.id.txt_save_date);
         }
     }

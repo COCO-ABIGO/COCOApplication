@@ -33,9 +33,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "Login";
 
-    public static final String NICKNAME = "nick";
-    public static final String USER_ID = "id";
-    public static final String PROFILE_IMG = "img";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -100,15 +97,15 @@ public class LoginActivity extends AppCompatActivity {
                     final String nickName = result.getNickname();
                     final long userID = result.getId();
                     final String pImage = result.getProfileImagePath();//사용자 프로필 경로
-                    Log.e("UserProfile", result.toString());
-                    Log.d("nickname", nickName);
-                    Log.d("USER_ID", String.valueOf(userID));
-                    Log.d("PROFILE_IMG", pImage);
+                    Log.e("user_profile", result.toString());
+                    Log.d("user_name", nickName);
+                    Log.d("user_id", String.valueOf(userID));
+                    Log.d("user_img", pImage);
 
                     Intent intent = new Intent(LoginActivity.this, BluetoothActivity.class);
-                    intent.putExtra(NICKNAME,nickName);
-                    intent.putExtra(USER_ID,String.valueOf(userID));
-                    intent.putExtra(PROFILE_IMG,pImage);
+                    intent.putExtra("user_name",nickName);
+                    intent.putExtra("user_id",String.valueOf(userID));
+                    intent.putExtra("user_img",pImage);
                     startActivity(intent);
                     finish();
                 }

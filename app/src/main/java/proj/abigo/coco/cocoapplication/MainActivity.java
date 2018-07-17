@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout main_tabLayout;
     private boolean mFlag = false;
 
-    Button btnBTAddFriend, btnBTAlarm;
+    Button btnAddFriend, btnAlarm;
     MyFeedFragment myFeedFragment = new MyFeedFragment();
     MyPageFragment myPageFragment = new MyPageFragment();
 
@@ -37,10 +37,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FirebaseInstanceId.getInstance().getToken();
+//        FirebaseInstanceId.getInstance().getToken();
 
-        String token = FirebaseInstanceId.getInstance().getToken();
-        Log.d("FCM_Token", token);
+//        String token = FirebaseInstanceId.getInstance().getToken();
+//        Log.d("FCM_Token", token);
 
         /* 피드를 기본화면으로 설정*/
         if(savedInstanceState == null){
@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnBTAddFriend.setOnClickListener(new View.OnClickListener() {
+        btnAddFriend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, FriendAddActivity.class);
@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnBTAlarm.setOnClickListener(new View.OnClickListener() {
+        btnAlarm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         main_tabLayout = (TabLayout)findViewById(R.id.main_tabLayout);
-        btnBTAddFriend =(Button)findViewById(R.id.btnBTAddFriend);
-        btnBTAlarm = (Button)findViewById(R.id.btnBTAlarm);
+        btnAddFriend =(Button)findViewById(R.id.btnAddFriend);
+        btnAlarm = (Button)findViewById(R.id.btnAlarm);
     }
 }
