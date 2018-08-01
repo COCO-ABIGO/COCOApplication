@@ -246,7 +246,7 @@ public class MyFeedFragment extends Fragment implements View.OnTouchListener{
         private static final String TAG_SUCCESS = "success";
         private static final String TAG_MESSAGE = "message";
 
-        private static final String Feed_URL = "http://127.0.0.1:8000/savings/";
+        private static final String Feed_URL = "ec2-13-124-250-250.ap-northeast-2.compute.amazonaws.com/savings/";
 
         private ProgressDialog pDialog;
 

@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">COCO</string>
+
+    <string name="coco_url">ec2-13-124-250-250.ap-northeast-2.compute.amazonaws.com</string>
     <string name="kakao_app_key">8265b18aa37222232ebcadb9e3be8ded</string>
     <string name="kakao_scheme">kakao8265b18aa37222232ebcadb9e3be8ded</string>
     <string name="kakaolink_host">kakaolink</string>
