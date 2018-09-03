@@ -3,6 +3,7 @@ package proj.abigo.coco.cocoapplication;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
@@ -11,7 +12,75 @@ import com.kakao.auth.ISessionConfig;
 import com.kakao.auth.KakaoAdapter;
 import com.kakao.auth.KakaoSDK;
 
+import proj.abigo.coco.cocoapplication.Network.NetworkService;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+
 public class GlobalApplication extends Application {
+
+    private static volatile GlobalApplication instance = null;
+    private static volatile Activity currentActivity = null;
+
+    private NetworkService networkService;
+    private String baseURL;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        GlobalApplication.instance = this;
+        KakaoSDK.init(new KakaoSDKAdapter());
+    }
+
+    // Activity가 올라올때마다 Activity의 onCreate에서 호출해줘야함
+    public static void setCurrentActivity(Activity currentActivity) {
+        GlobalApplication.currentActivity = currentActivity;
+    }
+
+
+    public static GlobalApplication getGlobalApplicationContext() {
+        return instance;
+    }
+
+    public static Activity getCurrentActivity() {
+        return currentActivity;
+    }
+
+    public NetworkService getNetworkService() {
+        return networkService;
+    }
+
+    public void buildNetworkService(String ip, int port){
+        synchronized (GlobalApplication.class){
+            if(networkService == null){
+                baseURL = String.format("http://%s:%d", ip, port);
+                Log.i("URL : ", baseURL);
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(baseURL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                networkService = retrofit.create(NetworkService.class);
+            }
+        }
+    }
+
+    public void buildNetworkService(String ip){
+        synchronized (GlobalApplication.class){
+            if (networkService == null){
+                baseURL = String.format("http://%s/", ip);
+                Log.i("URL : ", baseURL);
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl(baseURL)
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                networkService = retrofit.create(NetworkService.class);
+            }
+        }
+    }
+
     private static class KakaoSDKAdapter extends KakaoAdapter {
 
         @Override
@@ -69,29 +138,6 @@ public class GlobalApplication extends Application {
                 }
             };
         }
-    }
-
-    // Activity가 올라올때마다 Activity의 onCreate에서 호출해줘야한다.
-    public static void setCurrentActivity(Activity currentActivity) {
-        GlobalApplication.currentActivity = currentActivity;
-    }
-
-    private static volatile GlobalApplication obj = null;
-    private static volatile Activity currentActivity = null;
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        obj = this;
-        KakaoSDK.init(new KakaoSDKAdapter());
-    }
-
-    public static GlobalApplication getGlobalApplicationContext() {
-        return obj;
-    }
-
-    public static Activity getCurrentActivity() {
-        return currentActivity;
     }
 
 }

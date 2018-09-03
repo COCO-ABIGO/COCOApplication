@@ -17,6 +17,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import proj.abigo.coco.cocoapplication.MyFeed.MyFeedFragment;
 import proj.abigo.coco.cocoapplication.MyPage.MyPageFragment;
+import proj.abigo.coco.cocoapplication.Network.NetworkService;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     MyFeedFragment myFeedFragment = new MyFeedFragment();
     MyPageFragment myPageFragment = new MyPageFragment();
 
+    private NetworkService networkService;
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -36,6 +39,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GlobalApplication globalApplication = GlobalApplication.getGlobalApplicationContext();
+        globalApplication.buildNetworkService("a35ebc9d.ngrok.io");
+        networkService = GlobalApplication.getGlobalApplicationContext().getNetworkService();
+
 
 //        FirebaseInstanceId.getInstance().getToken();
 

@@ -27,7 +27,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import proj.abigo.coco.cocoapplication.Bluetooth.BluetoothService;
+import proj.abigo.coco.cocoapplication.GlobalApplication;
 import proj.abigo.coco.cocoapplication.Network.JSONParser;
+import proj.abigo.coco.cocoapplication.Network.NetworkService;
 import proj.abigo.coco.cocoapplication.R;
 
 /**
@@ -50,12 +52,17 @@ public class MyFeedFragment extends Fragment implements View.OnTouchListener{
     ArrayList<MyFeed> myFeedsList = null;
 
     BluetoothService btService = null;
+    private NetworkService networkService;
 
     private JSONObject feed_json;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        GlobalApplication globalApplication = GlobalApplication.getGlobalApplicationContext();
+        globalApplication.buildNetworkService("a35ebc9d.ngrok.io");
+        networkService = GlobalApplication.getGlobalApplicationContext().getNetworkService();
 
         if(btService == null){
             btService = new BluetoothService(getActivity(), handler);

@@ -13,4 +13,17 @@
         android:max="100"
         android:progress="90"
         android:progressDrawable="@drawable/circular"></ProgressBar>
+
+    <Button
+        android:id="@+id/btn1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="user" />
+
+    <TextView
+        android:id="@+id/txtUser"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="user : " />
+
 </LinearLayout>
