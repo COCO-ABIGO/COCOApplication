@@ -31,6 +31,7 @@ import proj.abigo.coco.cocoapplication.GlobalApplication;
 import proj.abigo.coco.cocoapplication.Network.JSONParser;
 import proj.abigo.coco.cocoapplication.Network.NetworkService;
 import proj.abigo.coco.cocoapplication.R;
+import proj.abigo.coco.cocoapplication.coco;
 
 /**
  * Created by User on 2018-02-20.
@@ -61,7 +62,7 @@ public class MyFeedFragment extends Fragment implements View.OnTouchListener{
         super.onCreate(savedInstanceState);
 
         GlobalApplication globalApplication = GlobalApplication.getGlobalApplicationContext();
-        globalApplication.buildNetworkService("a35ebc9d.ngrok.io");
+        globalApplication.buildNetworkService(coco.coco_url);
         networkService = GlobalApplication.getGlobalApplicationContext().getNetworkService();
 
         if(btService == null){

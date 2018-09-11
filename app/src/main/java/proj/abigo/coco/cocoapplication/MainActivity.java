@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         GlobalApplication globalApplication = GlobalApplication.getGlobalApplicationContext();
-        globalApplication.buildNetworkService("a35ebc9d.ngrok.io");
+        globalApplication.buildNetworkService(coco.coco_url);
         networkService = GlobalApplication.getGlobalApplicationContext().getNetworkService();
 
 

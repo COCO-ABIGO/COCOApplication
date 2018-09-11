@@ -33,9 +33,7 @@
             android:name="com.kakao.sdk.ClientSecret"
             android:value="kakao client secret value" />
 
-        <activity android:name=".SplashActivity">
-
-        </activity>
+        <activity android:name=".SplashActivity" />
         <activity
             android:name=".LoginActivity"
             android:theme="@style/AppTheme.NoActionBar" />
@@ -45,13 +43,11 @@
         <activity
             android:name=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
         <activity
             android:name=".Bluetooth.DeviceListActivity"
@@ -72,15 +68,16 @@
         </activity>
         <activity
             android:name=".AlarmActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".setGoalActivitiy"
-            android:theme="@style/AppTheme.NoActionBar">
-
-        </activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".MySaving.mySavingActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".myFightActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity android:name=".myFriendActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
