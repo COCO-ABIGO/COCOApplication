@@ -10,13 +10,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
 
+import com.kakao.auth.AuthType;
 import com.kakao.auth.ErrorCode;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.LoginButton;
 import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.LogoutResponseCallback;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
@@ -29,24 +34,58 @@ import java.security.NoSuchAlgorithmException;
 public class LoginActivity extends AppCompatActivity {
 
     SessionCallback callback; //callback class
-    LoginButton com_kakao_login; //xml에서 login button 가져옴
+    private Button btn_kakao_login; //xml에서 login button 가져옴
 
     private static final String TAG = "Login";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
-        // Add code to print out the key hash
+
+        if (savedInstanceState == null)
+            setContentView(R.layout.activity_login);
+        else {
+            finish();
+            return;
+        }
 
         initView();//callback class 초기화
+        setEvent();
+
+
+        /**카카오톡 로그아웃 요청**/
+        // 한번 로그인이 성공하면 세션 정보가 남아있어서 로그인창이 뜨지 않고 바로 onSuccess()메서드를 호출
+        //  매번 로그아웃 요청을 수행하도록 코드
+        UserManagement.requestLogout(new LogoutResponseCallback() {
+            @Override
+            public void onCompleteLogout() {
+                //로그아웃 성공 후
+                Toast.makeText(LoginActivity.this, "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+    private void setEvent() {
+        btn_kakao_login.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                isLoginKakao();
+            }
+        });
+    }
+
+    private void isLoginKakao() {
+
+        //callback class 초기화
+        callback = new LoginActivity.SessionCallback();
+        Session.getCurrentSession().addCallback(callback);
+        Session.getCurrentSession().open(AuthType.KAKAO_TALK, LoginActivity.this);
     }
 
 
     private void initView() {
-        //callback class 초기화
-        callback = new LoginActivity.SessionCallback();
-        Session.getCurrentSession().addCallback(callback);
+        btn_kakao_login = (Button)findViewById(R.id.btn_kakao_login);
     }
 
     //재로그인요청

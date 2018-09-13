@@ -28,10 +28,9 @@ import static com.kakao.usermgmt.StringSet.nickname;
 
 public class BluetoothActivity extends AppCompatActivity {
 
-    TextView txtName;
-    ImageView img_user;
-    EditText editName;
-    Button btnBtConnect;
+    private ImageView img_user;
+    private TextView txtName;
+    private Button btnBtConnect;
 
     private String user_id, user_name, user_img;
 
@@ -61,7 +60,7 @@ public class BluetoothActivity extends AppCompatActivity {
         user_name = intent.getStringExtra("user_name");
         user_img = intent.getStringExtra("user_img");
 
-        editName.setText(user_name);
+        txtName.setText(user_name);
 
         Glide
                 .with(this)
@@ -82,9 +81,8 @@ public class BluetoothActivity extends AppCompatActivity {
     }
 
     private void initView() {
-        txtName = (TextView) findViewById(R.id.txtName);
         img_user = (ImageView)findViewById(R.id.img_user);
-        editName = (EditText)findViewById(R.id.editName);
+        txtName = (TextView) findViewById(R.id.txtName);
         btnBtConnect = (Button)findViewById(R.id.btnBtConnect);
     }
 

@@ -60,19 +60,14 @@ public class mySavingActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     List<mySaving> mySavings = response.body();
 
-                    String saving_txt = "";
-
                     for(mySaving savings: mySavings){
-                        saving_txt += savings.getSavingmoney()+
-                                    savings.getSavingdate() +
-                                    "\n";
+                        String money = savings.getSavingmoney();
+                        String date = savings.getSavingdate();
+
+                        mySavingAdapter.addItem(money, date);
                     }
 
-                    txtPurpose.setText(saving_txt);
-//                        String money = savings.getSavingmoney();
-//                        String date = savings.getSavingdate();
-//
-//                        mySavingAdapter.addItem(money, date);
+                    mySavingAdapter.notifyDataSetChanged();
 
                 }else{
                     int StatusCode = response.code();

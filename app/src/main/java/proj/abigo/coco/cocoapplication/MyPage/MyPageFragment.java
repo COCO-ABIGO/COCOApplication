@@ -35,8 +35,7 @@ import retrofit2.Response;
 public class MyPageFragment extends Fragment implements View.OnTouchListener {
 
     private ProgressBar progressBar;
-    private Button btn1;
-    private TextView txtUser, txtPurpose, txtMoney;
+    private TextView txtPurpose, txtMoney;
     private ListView list_mypage_menu;
 
     int progressStep =5;
@@ -89,41 +88,6 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
             }
         });
 
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Call<List<Users>> getCall = networkService.get_users();
-                getCall.enqueue(new Callback<List<Users>>() {
-                    @Override
-                    public void onResponse(Call<List<Users>> call, Response<List<Users>> response) {
-                        if(response.isSuccessful()){
-                            List<Users> userList = response.body();
-
-                            String user_txt = "";
-                            for(Users users: userList){
-                                user_txt += users.getUsername() +
-                                        users.getUrl() +
-                                        users.getUseremail() +
-                                        "\n";
-                            }
-
-                            txtUser.setText(user_txt);
-
-                        }else{
-                            int StatusCode = response.code();
-                            Log.i("Status Code :", String.valueOf(StatusCode));
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Users>> call, Throwable t) {
-                        Log.i ("Fail Messange : ",t.getMessage());
-
-                    }
-                });
-            }
-        });
-
     }
 
     @Override
@@ -160,8 +124,6 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
     }
 
     private void initView(View v){
-        btn1 = (Button)v.findViewById(R.id.btn1);
-        txtUser = (TextView)v.findViewById(R.id.txtUser);
         progressBar = (ProgressBar)v.findViewById(R.id.MyPagePB);
         list_mypage_menu = (ListView)v.findViewById(R.id.list_mypage_menu);
         txtPurpose = (TextView)v.findViewById(R.id.txtPurpose);
