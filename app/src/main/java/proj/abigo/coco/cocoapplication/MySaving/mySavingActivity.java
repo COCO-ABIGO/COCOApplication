@@ -53,6 +53,8 @@ public class mySavingActivity extends AppCompatActivity {
         mySavingAdapter = new mySavingAdapter();
         list_mysaving.setAdapter(mySavingAdapter);
 
+
+
         Call<List<mySaving>> getCall = networkService.get_savings();
         getCall.enqueue(new Callback<List<mySaving>>() {
             @Override

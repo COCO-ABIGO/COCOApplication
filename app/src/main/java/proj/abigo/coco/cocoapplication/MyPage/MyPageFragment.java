@@ -21,6 +21,8 @@ import android.widget.TextView;
 import java.util.List;
 
 import proj.abigo.coco.cocoapplication.GlobalApplication;
+import proj.abigo.coco.cocoapplication.MyFeed.MyFeedFragment;
+import proj.abigo.coco.cocoapplication.SharedPrefereneUtil;
 import proj.abigo.coco.cocoapplication.coco;
 import proj.abigo.coco.cocoapplication.myFightActivity;
 import proj.abigo.coco.cocoapplication.MySaving.mySavingActivity;
@@ -30,6 +32,7 @@ import proj.abigo.coco.cocoapplication.Users;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Path;
 
 
 public class MyPageFragment extends Fragment implements View.OnTouchListener {
@@ -52,6 +55,8 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
 
     private MenuAdapter menuAdapter;
 
+    private String user_id, saving_purpose, saving_goal;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +65,9 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
         GlobalApplication globalApplication = GlobalApplication.getGlobalApplicationContext();
         globalApplication.buildNetworkService(coco.coco_url);
         networkService = GlobalApplication.getGlobalApplicationContext().getNetworkService();
+
+        SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(getActivity().getApplicationContext());
+        user_id = sharedPrefereneUtil.getSharedPreferences("user_id", " ");
 
     }
 
@@ -119,6 +127,23 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
         an.setFillAfter(true);
 
         progressBar.startAnimation(an);
+
+        Call<Users> usersCall = networkService.get_users(user_id);
+        usersCall.enqueue(new Callback<Users>() {
+            @Override
+            public void onResponse(Call<Users> call, Response<Users> response) {
+                saving_purpose = response.body().getSaving_purpose();
+                saving_goal = response.body().getSaving_goal();
+
+                Log.d("saving_purpose", saving_purpose);
+                Log.d("saving_goal", saving_goal);
+            }
+
+            @Override
+            public void onFailure(Call<Users> call, Throwable t) {
+
+            }
+        });
 
         setEvent();
     }

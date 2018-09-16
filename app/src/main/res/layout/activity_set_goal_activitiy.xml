@@ -71,6 +71,7 @@
                 android:layout_height="wrap_content"
                 android:ems="6"
                 android:textColor="#000000"
+                android:background="@null"
                 android:inputType="number" />
 
             <TextView

@@ -135,16 +135,19 @@ public class LoginActivity extends AppCompatActivity {
 
                     final String nickName = result.getNickname();
                     final long userID = result.getId();
+                    final String email = result.getEmail();
                     final String pImage = result.getProfileImagePath();//사용자 프로필 경로
+
                     Log.e("user_profile", result.toString());
                     Log.d("user_name", nickName);
                     Log.d("user_id", String.valueOf(userID));
                     Log.d("user_img", pImage);
 
                     Intent intent = new Intent(LoginActivity.this, BluetoothActivity.class);
-                    intent.putExtra("user_name",nickName);
                     intent.putExtra("user_id",String.valueOf(userID));
-                    intent.putExtra("user_img",pImage);
+                    intent.putExtra("user_name",nickName);
+                    intent.putExtra("user_email", email);
+                    intent.putExtra("user_img_path",pImage);
                     startActivity(intent);
                     finish();
                 }

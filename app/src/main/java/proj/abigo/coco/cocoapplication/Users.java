@@ -6,58 +6,58 @@ package proj.abigo.coco.cocoapplication;
 
 public class Users {
 
-    String url;
-    String username;
-    String useremail;
-    String useraddress;
-    String userimg;
-    String purpose;
+    String user_id;
+    String user_name;
+    String user_email;
+    String user_img_path;
+    String saving_purpose;
+    String saving_goal;
 
-    public String getUrl() {
-        return url;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUser_name() {
+        return user_name;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
     }
 
-    public String getUseremail() {
-        return useremail;
+    public String getUser_email() {
+        return user_email;
     }
 
-    public void setUseremail(String useremail) {
-        this.useremail = useremail;
+    public void setUser_email(String user_email) {
+        this.user_email = user_email;
     }
 
-    public String getUseraddress() {
-        return useraddress;
+    public String getUser_img_path() {
+        return user_img_path;
     }
 
-    public void setUseraddress(String useraddress) {
-        this.useraddress = useraddress;
+    public void setUser_img_path(String user_img_path) {
+        this.user_img_path = user_img_path;
     }
 
-    public String getUserimg() {
-        return userimg;
+    public String getSaving_purpose() {
+        return saving_purpose;
     }
 
-    public void setUserimg(String userimg) {
-        this.userimg = userimg;
+    public void setSaving_purpose(String saving_purpose) {
+        this.saving_purpose = saving_purpose;
     }
 
-    public String getPurpose() {
-        return purpose;
+    public String getSaving_goal() {
+        return saving_goal;
     }
 
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
+    public void setSaving_goal(String saving_goal) {
+        this.saving_goal = saving_goal;
     }
 }

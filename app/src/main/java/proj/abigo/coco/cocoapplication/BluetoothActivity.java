@@ -32,7 +32,7 @@ public class BluetoothActivity extends AppCompatActivity {
     private TextView txtName;
     private Button btnBtConnect;
 
-    private String user_id, user_name, user_img;
+    private String user_id, user_name, user_email, user_img_path;
 
     private static final boolean D = true;
 
@@ -58,13 +58,14 @@ public class BluetoothActivity extends AppCompatActivity {
         Intent intent = getIntent();
         user_id = intent.getStringExtra("user_id");
         user_name = intent.getStringExtra("user_name");
-        user_img = intent.getStringExtra("user_img");
+        user_email = intent.getStringExtra("user_email");
+        user_img_path = intent.getStringExtra("user_img_path");
 
         txtName.setText(user_name);
 
         Glide
                 .with(this)
-                .load(user_img)
+                .load(user_img_path)
                 .fitCenter()
                 .centerCrop()
                 .crossFade()
@@ -102,7 +103,8 @@ public class BluetoothActivity extends AppCompatActivity {
                             Intent intent = new Intent(BluetoothActivity.this, setGoalActivitiy.class);
                             intent.putExtra("user_id", user_id);
                             intent.putExtra("user_name", user_name);
-                            intent.putExtra("user_img", user_img);
+                            intent.putExtra("user_email", user_email);
+                            intent.putExtra("user_img_path", user_img_path);
                             startActivity(intent);
                             break;
                         case BluetoothService.STATE_FAIL:

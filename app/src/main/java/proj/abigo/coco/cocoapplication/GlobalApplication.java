@@ -88,7 +88,7 @@ public class GlobalApplication extends Application {
             return new ISessionConfig() {
                 @Override
                 public AuthType[] getAuthTypes() {
-                    return new AuthType[] {AuthType.KAKAO_LOGIN_ALL};
+                    return new AuthType[] {AuthType.KAKAO_ACCOUNT};
                 }
                 // 로그인시 인증받을 타입을 지정한다. 지정하지 않을 시 가능한 모든 옵션이 지정된다.
 
@@ -101,6 +101,11 @@ public class GlobalApplication extends Application {
 
                 @Override
                 public boolean isUsingWebviewTimer() {
+                    return false;
+                }
+
+                @Override
+                public boolean isSecureMode() {
                     return false;
                 }
                 // SDK 로그인시 사용되는 WebView에서 pause와 resume시에 Timer를 설정하여 CPU소모를 절약한다.
@@ -124,7 +129,6 @@ public class GlobalApplication extends Application {
         @Override
         public IApplicationConfig getApplicationConfig() {
             return new IApplicationConfig() {
-                @Override
                 public Activity getTopActivity() {
                     return GlobalApplication.getCurrentActivity();
                 }
