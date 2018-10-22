@@ -17,6 +17,7 @@ import jp.wasabeef.glide.transformations.CropCircleTransformation;
 import proj.abigo.coco.cocoapplication.GlobalApplication;
 import proj.abigo.coco.cocoapplication.Network.NetworkService;
 import proj.abigo.coco.cocoapplication.R;
+import proj.abigo.coco.cocoapplication.SharedPrefereneUtil;
 import proj.abigo.coco.cocoapplication.Users;
 import proj.abigo.coco.cocoapplication.coco;
 import retrofit2.Call;
@@ -29,6 +30,8 @@ public class mySavingActivity extends AppCompatActivity {
     private TextView txt_user_name, txtName, txtPurpose;
     private ImageView img_user;
     private ListView list_mysaving;
+
+    private String user_id, user_name, user_img_path, saving_purpose;
 
     private mySavingAdapter mySavingAdapter;
     private NetworkService networkService;
@@ -53,6 +56,25 @@ public class mySavingActivity extends AppCompatActivity {
         mySavingAdapter = new mySavingAdapter();
         list_mysaving.setAdapter(mySavingAdapter);
 
+        SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(getApplicationContext().getApplicationContext());
+        user_id = sharedPrefereneUtil.getSharedPreferences("user_id", " ");
+        user_name = sharedPrefereneUtil.getSharedPreferences("user_name", " ");
+        user_img_path = sharedPrefereneUtil.getSharedPreferences("user_img_path", " ");
+        saving_purpose = sharedPrefereneUtil.getSharedPreferences("saving_purpose", " ");
+
+
+        txtName.setText(user_name);
+        txtPurpose.setText(saving_purpose);
+
+        Glide
+                .with(this)
+                .load(user_img_path)
+                .fitCenter()
+                .centerCrop()
+                .crossFade() // 이미지 로딩 시 페이드 효과
+                .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
+                .override(200, 200)
+                .into(img_user);
 
 
         Call<List<mySaving>> getCall = networkService.get_savings();
@@ -65,8 +87,9 @@ public class mySavingActivity extends AppCompatActivity {
                     for(mySaving savings: mySavings){
                         String money = savings.getSavingmoney();
                         String date = savings.getSavingdate();
+                        String time = savings.getSavingtime();
 
-                        mySavingAdapter.addItem(money, date);
+                        mySavingAdapter.addItem(money, date, time);
                     }
 
                     mySavingAdapter.notifyDataSetChanged();
@@ -83,17 +106,6 @@ public class mySavingActivity extends AppCompatActivity {
 
             }
         });
-//
-//        Glide
-//                .with(this)
-//                .load(IMAGE_URL + user_img_path)
-//                .fitCenter()
-//                .centerCrop()
-//                .crossFade() // 이미지 로딩 시 페이드 효과
-//                .bitmapTransform(new CropCircleTransformation(getApplicationContext()))
-//                .override(200, 200)
-//                .into(img_user);
-
     }
 
     private void setEvent() {

@@ -6,18 +6,18 @@ package proj.abigo.coco.cocoapplication;
 
 public class Users {
 
-    String user_id;
+    int user_id;
     String user_name;
     String user_email;
     String user_img_path;
     String saving_purpose;
-    String saving_goal;
+    int saving_goal;
 
-    public String getUser_id() {
+    public int getUser_id() {
         return user_id;
     }
 
-    public void setUser_id(String user_id) {
+    public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
 
@@ -53,11 +53,11 @@ public class Users {
         this.saving_purpose = saving_purpose;
     }
 
-    public String getSaving_goal() {
+    public int getSaving_goal() {
         return saving_goal;
     }
 
-    public void setSaving_goal(String saving_goal) {
+    public void setSaving_goal(int saving_goal) {
         this.saving_goal = saving_goal;
     }
 }

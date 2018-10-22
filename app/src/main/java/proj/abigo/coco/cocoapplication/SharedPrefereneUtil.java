@@ -26,12 +26,34 @@ public class SharedPrefereneUtil {
 
     }
 
+    public void putSharedPreferences(String key, int value){
+
+        SharedPreferences pref = mContext.getSharedPreferences(Pref_name,Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt(key,value);
+        editor.commit();
+
+    }
+
+
     public String getSharedPreferences(String key, String value) {
 
         SharedPreferences pref = mContext.getSharedPreferences(Pref_name,Context.MODE_PRIVATE);
 
         try{
             return pref.getString(key, value);
+        }catch (Exception e){
+            return value;
+        }
+
+    }
+
+    public Integer getSharedPreferences(String key, int value) {
+
+        SharedPreferences pref = mContext.getSharedPreferences(Pref_name,Context.MODE_PRIVATE);
+
+        try{
+            return pref.getInt(key, value);
         }catch (Exception e){
             return value;
         }

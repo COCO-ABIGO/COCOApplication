@@ -134,7 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                     Logger.e("succeeded to update user profile", result, "\n");
 
                     final String nickName = result.getNickname();
-                    final long userID = result.getId();
+                    final Integer userID = (int)result.getId();
                     final String email = result.getEmail();
                     final String pImage = result.getProfileImagePath();//사용자 프로필 경로
 
@@ -144,7 +144,7 @@ public class LoginActivity extends AppCompatActivity {
                     Log.d("user_img", pImage);
 
                     Intent intent = new Intent(LoginActivity.this, BluetoothActivity.class);
-                    intent.putExtra("user_id",String.valueOf(userID));
+                    intent.putExtra("user_id",userID);
                     intent.putExtra("user_name",nickName);
                     intent.putExtra("user_email", email);
                     intent.putExtra("user_img_path",pImage);

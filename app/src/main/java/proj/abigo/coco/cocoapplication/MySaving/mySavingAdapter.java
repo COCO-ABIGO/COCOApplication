@@ -57,20 +57,23 @@ public class mySavingAdapter extends BaseAdapter{
 
         TextView txt_saving_money = (TextView)convertview.findViewById(R.id.txt_saving_money);
         TextView txt_saving_date = (TextView)convertview.findViewById(R.id.txt_saving_date);
+        TextView txt_saving_time = (TextView)convertview.findViewById(R.id.txt_saving_time);
 
         mySaving mySaving = savingArrayList.get(i);
 
-        txt_saving_money.setText(mySaving.getSavingmoney());
+        txt_saving_money.setText(mySaving.getSavingmoney() );
         txt_saving_date.setText(mySaving.getSavingdate());
+        txt_saving_time.setText(mySaving.getSavingtime());
 
         return convertview;
     }
 
-    public void addItem(String money, String date){
+    public void addItem(String money, String date, String time){
         mySaving saving = new mySaving();
 
         saving.setSavingmoney(money);
         saving.setSavingdate(date);
+        saving.setSavingtime(time);
 
         savingArrayList.add(saving);
     }

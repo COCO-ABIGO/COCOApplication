@@ -28,7 +28,8 @@ public class setGoalActivitiy extends AppCompatActivity {
     private EditText editMoney;
     private Button btnStart;
 
-    private String user_id, user_name, user_email, user_img_path, saving_purpose, saving_money;
+    private Integer user_id, saving_money;
+    private String user_name, user_email, user_img_path, saving_purpose;
 
     private final String[] purposes = {"저축", "기부", "용돈", "기타"};
 
@@ -49,10 +50,16 @@ public class setGoalActivitiy extends AppCompatActivity {
     private void setView() {
 
         Intent intent = getIntent();
-        user_id = intent.getStringExtra("user_id");
+        user_id = intent.getIntExtra("user_id", 0);
         user_name = intent.getStringExtra("user_name");
         user_email = intent.getStringExtra("user_email");
         user_img_path = intent.getStringExtra("user_img_path");
+
+        // test
+//        user_id = "918201429";
+//        user_name = "홍은비";
+//        user_email = "uko02111@naver.com";
+//        user_img_path = "http://k.kakaocdn.net/dn/cwyxs7/btqoVIbjkbW/Cot61ksaA5Rk1e2nu9Hg10/profile_640x640s.jpg";
 
         txtName.setText(user_name + " 님,");
 
@@ -75,9 +82,6 @@ public class setGoalActivitiy extends AppCompatActivity {
                         saving_purpose = "기부";
                         break;
                     case 2:
-                        saving_purpose = "용돈";
-                        break;
-                    case 3:
                         saving_purpose = "기타";
                         break;
                 }
@@ -96,35 +100,37 @@ public class setGoalActivitiy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                saving_money = editMoney.getText().toString();
+            saving_money = Integer.valueOf(editMoney.toString());
 
-                Log.d("user_id", user_id);
-                Log.d("user_name", user_name);
-                Log.d("user_email", user_email);
-                Log.d("user_img_path", user_img_path);
-                Log.d("saving_purpose", saving_purpose);
-                Log.d("saving_goal", saving_money);
+            Log.d("user_id", String.valueOf(user_id));
+            Log.d("user_name", user_name);
+            Log.d("user_email", user_email);
 
-                // user_id, user_name, user_img_path, saving_purpose, saving_money REST POST 요청
+            Log.d("user_img_path", user_img_path);
+            Log.d("saving_purpose", saving_purpose);
+            Log.d("saving_goal", String.valueOf(saving_money));
 
-                Users users = new Users();
-                users.setUser_id(user_id);
-                users.setUser_name(user_name);
-                users.setUser_email(user_email);
-                users.setUser_img_path(user_img_path);
-                users.setSaving_purpose(saving_purpose);
-                users.setSaving_goal(saving_money);
+            /* user_id, user_name, user_img_path, saving_purpose, saving_money REST POST 요청 */
 
-                Call<Users> usersCall = networkService.post_users(users);
+            Users users = new Users();
+            users.setUser_id(user_id);
+            users.setUser_name(user_name);
+            users.setUser_email(user_email);
+            users.setUser_img_path(user_img_path);
+            users.setSaving_purpose(saving_purpose);
+            users.setSaving_goal(saving_money);
+
+            Call<Users> usersCall = networkService.post_users(users);
                 usersCall.enqueue(new Callback<Users>() {
                     @Override
                     public void onResponse(Call<Users> call, Response<Users> response) {
                         if (response.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),user_name+ " 님 반갑습니다:)", Toast.LENGTH_SHORT).show();
 
                             /*sharedpreferene : user_id 저장 */
                             SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(setGoalActivitiy.this);
                             sharedPrefereneUtil.putSharedPreferences("user_id", user_id);
+
+                            Toast.makeText(getApplicationContext(),user_name+ " 님 반갑습니다:)", Toast.LENGTH_SHORT).show();
 
                             Intent intent = new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);

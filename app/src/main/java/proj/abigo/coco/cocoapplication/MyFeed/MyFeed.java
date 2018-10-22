@@ -13,15 +13,6 @@ public class MyFeed {
     String save_date;
     String purpose;
 
-    public MyFeed(String user_id, String user_img_path, String user_name, String savingMoney, String save_date, String purpose) {
-        this.user_id = user_id;
-        this.user_img_path = user_img_path;
-        this.user_name = user_name;
-        this.savingMoney = savingMoney;
-        this.save_date = save_date;
-        this.purpose = purpose;
-    }
-
     public String getUser_id() {
         return user_id;
     }

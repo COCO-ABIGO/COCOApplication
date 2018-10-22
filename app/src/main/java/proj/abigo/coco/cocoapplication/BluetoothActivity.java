@@ -32,7 +32,8 @@ public class BluetoothActivity extends AppCompatActivity {
     private TextView txtName;
     private Button btnBtConnect;
 
-    private String user_id, user_name, user_email, user_img_path;
+    private String user_name, user_email, user_img_path;
+    private Integer user_id;
 
     private static final boolean D = true;
 
@@ -56,7 +57,7 @@ public class BluetoothActivity extends AppCompatActivity {
     private void setView() {
 
         Intent intent = getIntent();
-        user_id = intent.getStringExtra("user_id");
+        user_id = intent.getIntExtra("user_id", 0);
         user_name = intent.getStringExtra("user_name");
         user_email = intent.getStringExtra("user_email");
         user_img_path = intent.getStringExtra("user_img_path");
