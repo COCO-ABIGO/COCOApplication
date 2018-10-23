@@ -19,12 +19,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.kakao.usermgmt.response.model.User;
-
 import java.io.IOException;
-import java.util.List;
-import java.util.StringJoiner;
 
 import okhttp3.ResponseBody;
 import proj.abigo.coco.cocoapplication.GlobalApplication;
@@ -145,21 +140,21 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
         ani.setDuration(1500 * percent / 100);
         ani.start();
 
-        Call<List<Users>> getCall = networkService.get_users(user_id);
-        getCall.enqueue(new Callback<List<Users>>() {
+        Call<ResponseBody> getCall = networkService.get_users(user_id);
+        getCall.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<List<Users>> call, Response<List<Users>> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()){
-                    List<Users> myusers = response.body();
-
-                    for(Users users: myusers){
-                        user_name = users.getUser_name();
-                        saving_goal = users.getSaving_goal();
-                        saving_purpose = users.getSaving_purpose();
-
-                        txtMoney.setText(saving_goal);
-                        txtPurpose.setText(saving_purpose);
+                    try{
+                        Log.i("get_user", response.body().string());
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
+
+//
+//                    txtMoney.setText(saving_goal);
+//                        txtPurpose.setText(saving_purpose);
+
 
                 }else{
                     int StatusCode = response.code();
@@ -168,7 +163,7 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
             }
 
             @Override
-            public void onFailure(Call<List<Users>> call, Throwable t) {
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.i ("Fail Messange : ",t.getMessage());
             }
 

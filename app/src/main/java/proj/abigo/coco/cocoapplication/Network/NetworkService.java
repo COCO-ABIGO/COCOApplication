@@ -21,8 +21,8 @@ public interface NetworkService {
     @POST("/userInfo/{user_id}")
     Call<Users> post_users(@Body Users users);
 
-    @GET("/userInfo/{user_id}/")
-    Call<Users> get_users(@Path("user_id") int user_id);
+    @GET("/userInfo/{user_id}")
+    Call<ResponseBody> get_users(@Path("user_id") int user_id);
 
     @GET("/savings/")
     Call<List<mySaving>> get_savings();

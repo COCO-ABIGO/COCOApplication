@@ -18,7 +18,6 @@ import proj.abigo.coco.cocoapplication.GlobalApplication;
 import proj.abigo.coco.cocoapplication.Network.NetworkService;
 import proj.abigo.coco.cocoapplication.R;
 import proj.abigo.coco.cocoapplication.SharedPrefereneUtil;
-import proj.abigo.coco.cocoapplication.Users;
 import proj.abigo.coco.cocoapplication.coco;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,7 +30,8 @@ public class mySavingActivity extends AppCompatActivity {
     private ImageView img_user;
     private ListView list_mysaving;
 
-    private String user_id, user_name, user_img_path, saving_purpose;
+    private Integer user_id;
+    private String user_name, user_img_path, saving_purpose;
 
     private mySavingAdapter mySavingAdapter;
     private NetworkService networkService;
@@ -57,7 +57,7 @@ public class mySavingActivity extends AppCompatActivity {
         list_mysaving.setAdapter(mySavingAdapter);
 
         SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(getApplicationContext().getApplicationContext());
-        user_id = sharedPrefereneUtil.getSharedPreferences("user_id", " ");
+        user_id = sharedPrefereneUtil.getSharedPreferences("user_id", 0);
         user_name = sharedPrefereneUtil.getSharedPreferences("user_name", " ");
         user_img_path = sharedPrefereneUtil.getSharedPreferences("user_img_path", " ");
         saving_purpose = sharedPrefereneUtil.getSharedPreferences("saving_purpose", " ");
