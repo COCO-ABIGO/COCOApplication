@@ -26,12 +26,18 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import proj.abigo.coco.cocoapplication.Bluetooth.BluetoothService;
+import proj.abigo.coco.cocoapplication.GlobalApplication;
+import proj.abigo.coco.cocoapplication.MySaving.mySaving;
 import proj.abigo.coco.cocoapplication.Network.JSONParser;
 import proj.abigo.coco.cocoapplication.Network.NetworkService;
 import proj.abigo.coco.cocoapplication.R;
 import proj.abigo.coco.cocoapplication.coco;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by User on 2018-02-20.
@@ -55,29 +61,20 @@ public class MyFeedFragment extends Fragment implements View.OnTouchListener{
     BluetoothService btService = null;
     private NetworkService networkService;
 
-    private JSONObject feed_json;
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//
-//        GlobalApplication globalApplication = GlobalApplication.getGlobalApplicationContext();
-//        globalApplication.buildNetworkService(coco.coco_url);
-//        networkService = GlobalApplication.getGlobalApplicationContext().getNetworkService();
+
+        GlobalApplication globalApplication = GlobalApplication.getGlobalApplicationContext();
+        globalApplication.buildNetworkService(coco.coco_url);
+        networkService = GlobalApplication.getGlobalApplicationContext().getNetworkService();
 
         if(btService == null){
             btService = new BluetoothService(getActivity(), handler);
-        }//        try{
-//            feed_json = new GetFeed().execute().get();
-//            Log.d("feed_test", feed_json.toString());
-//
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        }
+        }
 
 
         myFeedsList = new ArrayList<>();
-
 
 
     }
@@ -100,60 +97,87 @@ public class MyFeedFragment extends Fragment implements View.OnTouchListener{
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-//        myFeedAdapter = new MyFeedAdapter(getContext(), myFeedsList);
-//        mLinearLayoutManager = new LinearLayoutManager(this.getContext());
-//        myFeed_list_recycler.setAdapter(myFeedAdapter);
-//        myFeed_list_recycler.setLayoutManager(mLinearLayoutManager);
+        myFeedAdapter = new MyFeedAdapter();
+        myFeed_list_recycler.setAdapter(myFeedAdapter);
 
-       myFeedAdapter = new MyFeedAdapter();
-       myFeed_list_recycler.setAdapter(myFeedAdapter);
-
-        myFeedAdapter.addItem("1", "http://mblogthumb3.phinf.naver.net/MjAxNzExMTVfMTY5/MDAxNTEwNjc4ODI0Mjc4.nciW7W3HcgaT1_KCV6M7V6hIJ9RGkc7yTo2IHmPUvQYg.cxBwxuBYjs9-a3Csev_noK3Ylhkd-KIgNZZiIKi-kdAg.JPEG.gabrriel/7de8a79d-c655-42d7-bc40-8852ee2fb03c.jpg?type=w800","김제니", "30000","9/2","기부");
-
-        myFeedAdapter.notifyDataSetChanged();
+        GetFeed();
 
      //   refreshItem();
     }
 
-//    private void refreshItem() {
-//
-//        myFeedsList.clear();
-//        loadingMore = true;
-//
-//        scroll_num = 1;
-//        try {
-//            feed_json = new GetFeed().execute().get();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//
-//        // Load complete
-//        onItemsLoadComplete();
-//        setEvent();
-//
-//    }
-//
-//
-//    private void onItemsLoadComplete() {
-//
-//        myFeedAdapter.notifyDataSetChanged();
-//
-//        // Stop refresh animation
-//        myFeed_swipe_Refresh.setRefreshing(false);
-//
-//
-//    }
-//
-//
-//    private void setEvent() {
-//
-//        myFeed_swipe_Refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-//            @Override
-//            public void onRefresh() {
-//                refreshItem();
-//            }
-//        });
-//
+    private void GetFeed() {
+        Call<List<MyFeed>> getCall = networkService.get_feed();
+        getCall.enqueue(new Callback<List<MyFeed>>() {
+            @Override
+            public void onResponse(Call<List<MyFeed>> call, Response<List<MyFeed>> response) {
+                if(response.isSuccessful()){
+                    List<MyFeed> myFeeds = response.body();
+
+                    for(MyFeed feed: myFeeds){
+                        String img_path = feed.getUser_img_path();
+                        String name = feed.getUser_name();
+                        String purpose = feed.getPurpose();
+                        String date = feed.getSave_date();
+                        String money = feed.getSavingMoney();
+
+                        myFeedAdapter.addItem(img_path, name, money, date, purpose);
+                    }
+
+                    myFeedAdapter.notifyDataSetChanged();
+
+                }else{
+                    int StatusCode = response.code();
+                    Log.i("Status Code :", String.valueOf(StatusCode));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<MyFeed>> call, Throwable t) {
+                Log.i ("Fail Messange : ",t.getMessage());
+
+            }
+        });
+    }
+
+    private void refreshItem() {
+
+        myFeedsList.clear();
+        loadingMore = true;
+
+        scroll_num = 1;
+        try {
+            GetFeed();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Load complete
+        onItemsLoadComplete();
+        setEvent();
+
+    }
+
+
+    private void onItemsLoadComplete() {
+
+        myFeedAdapter.notifyDataSetChanged();
+
+        // Stop refresh animation
+        myFeed_swipe_Refresh.setRefreshing(false);
+
+
+    }
+
+
+    private void setEvent() {
+
+        myFeed_swipe_Refresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refreshItem();
+            }
+        });
+
 //        myFeed_list_recycler.addOnScrollListener(new RecyclerView.OnScrollListener() {
 //
 //            private static final int HIDE_THRESHOLD = 20;
@@ -222,92 +246,8 @@ public class MyFeedFragment extends Fragment implements View.OnTouchListener{
 //                }
 //            }
 //        });
-//    }
-//
-//    private void loadList(String result) {
-//        /* 통신 후 받은 결과값을 객체로 변환 후 list에 뿌려주는 함수 */
-//        try {
-//            Gson gson = new Gson();
-//            Log.d("loadList", "func : " + result);
-//            JSONArray feedListObj = new JSONArray(result);
-//
-//            if (feedListObj.length() == 0) {
-//                scroll_num --;
-//                Log.d("loadList", "func : 비었다");
-//
-//                loadingMore = false;
-//            }
-//
-//            else {
-//
-//                for(int i = 0; i < feedListObj.length(); i++) {
-//                    String feedInfo = feedListObj.getJSONObject(i).toString();
-//                    MyFeed myFeed = gson.fromJson(feedInfo, MyFeed.class);
-//                    myFeedsList.add(myFeed);
-//
-//                }
-//                myFeedAdapter.notifyDataSetChanged();
-//            }
-//
-//        } catch(Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
-//
-//    private class GetFeed extends AsyncTask<String, String, JSONObject>{
-//
-//        JSONParser jsonParser = new JSONParser();
-//
-//        private static final String TAG_SUCCESS = "success";
-//        private static final String TAG_MESSAGE = "message";
-//
-//        private static final String Feed_URL = "ec2-13-124-250-250.ap-northeast-2.compute.amazonaws.com/savings/";
-//
-//        private ProgressDialog pDialog;
-//
-//        @Override
-//        protected void onPreExecute() {
-//            pDialog = new ProgressDialog(getContext());
-//            pDialog.setMessage("저금 정보를 가져오는 중 입니다.");
-//            pDialog.setIndeterminate(false);
-//            pDialog.setCancelable(true);
-//            pDialog.show();
-//        }
-//
-//        @Override
-//        protected JSONObject doInBackground(String... args) {
-//            try {
-//                HashMap<String, String> params = new HashMap<>();
-//                params.put("scroll_num", args[0]);
-//                Log.d("myAward", args[0]);
-//
-//                JSONObject result = jsonParser.makeHttpRequest(
-//                        Feed_URL, "GET", params);
-//
-//
-//                if (result != null) {
-//                    Log.d("feed_list", "result : " + result);
-//                    return result;
-//                } else {
-//                    Log.d("feed_list", "result : null, doInBackground");
-//                }
-//
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-//
-//            return null;
-//        }
-//
-//        protected void onPostExecute(JSONObject jObj) {
-//            if (pDialog != null && pDialog.isShowing()) {
-//                pDialog.dismiss();
-//            }
-//            super.onPostExecute(jObj);
-//        }
-//
-//    }
-//
+    }
+
 
 
     private final Handler handler = new Handler(){

@@ -90,23 +90,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btnAddFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, FriendAddActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        btnAlarm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
+//        btnAddFriend.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, FriendAddActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
+//
+//        btnAlarm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
+//                startActivity(intent);
+//                finish();
+//            }
+//        });
 
     }
 

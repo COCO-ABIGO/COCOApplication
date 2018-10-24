@@ -1,5 +1,6 @@
 package proj.abigo.coco.cocoapplication.MySaving;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,6 +30,7 @@ public class mySavingActivity extends AppCompatActivity {
     private TextView txt_user_name, txtName, txtPurpose;
     private ImageView img_user;
     private ListView list_mysaving;
+    private FloatingActionButton fab_Refresh;
 
     private Integer user_id;
     private String user_name, user_img_path, saving_purpose;
@@ -116,6 +118,41 @@ public class mySavingActivity extends AppCompatActivity {
                 mySavingActivity.this.finish();
             }
         });
+
+        fab_Refresh.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Call<List<mySaving>> getCall = networkService.get_savings();
+                getCall.enqueue(new Callback<List<mySaving>>() {
+                    @Override
+                    public void onResponse(Call<List<mySaving>> call, Response<List<mySaving>> response) {
+                        if(response.isSuccessful()){
+                            List<mySaving> mySavings = response.body();
+
+                            for(mySaving savings: mySavings){
+                                String money = savings.getSavingmoney();
+                                String date = savings.getSavingdate();
+                                String time = savings.getSavingtime();
+
+                                mySavingAdapter.addItem(money, date, time);
+                            }
+
+                            mySavingAdapter.notifyDataSetChanged();
+
+                        }else{
+                            int StatusCode = response.code();
+                            Log.i("Status Code :", String.valueOf(StatusCode));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<mySaving>> call, Throwable t) {
+                        Log.i ("Fail Messange : ",t.getMessage());
+
+                    }
+                });
+            }
+        });
     }
 
     private void initVIew() {
@@ -125,5 +162,6 @@ public class mySavingActivity extends AppCompatActivity {
         txtPurpose = (TextView)findViewById(R.id.txtPurpose);
         img_user = (ImageView)findViewById(R.id.img_user);
         list_mysaving = (ListView)findViewById(R.id.list_mysaving);
+        fab_Refresh = (FloatingActionButton)findViewById(R.id.fab_Refresh);
     }
 }

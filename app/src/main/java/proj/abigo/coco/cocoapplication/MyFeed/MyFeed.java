@@ -6,20 +6,11 @@ package proj.abigo.coco.cocoapplication.MyFeed;
 
 public class MyFeed {
 
-    String user_id;
     String user_img_path;
     String user_name;
     String savingMoney;
     String save_date;
     String purpose;
-
-    public String getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(String user_id) {
-        this.user_id = user_id;
-    }
 
     public String getUser_img_path() {
         return user_img_path;

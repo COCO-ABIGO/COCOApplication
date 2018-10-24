@@ -8,6 +8,7 @@
     android:orientation="vertical"
     tools:context="proj.abigo.coco.cocoapplication.MySaving.mySavingActivity">
 
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,6 +41,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
@@ -51,6 +53,7 @@
             android:layout_width="85dp"
             android:layout_height="85dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="8dp"
             app:srcCompat="@drawable/user" />
 
@@ -101,25 +104,46 @@
 
     </LinearLayout>
 
-    <LinearLayout
+
+
+
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
-        android:padding="12dp"
-        android:orientation="vertical">
+        android:layout_weight="6">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="저금 내역" />
+            android:orientation="vertical">
 
-        <ListView
-            android:id="@+id/list_mysaving"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_margin="15dp"
+                android:text="저금 내역" />
 
-    </LinearLayout>
+            <ListView
+                android:id="@+id/list_mysaving"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"/>
 
+        </LinearLayout>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_Refresh"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="20dp"
+            android:backgroundTint="#736efe"
+            android:src="@drawable/Refresh"
+            app:pressedTranslationZ="7dp"/>
+
+    </RelativeLayout>
 
 </LinearLayout>

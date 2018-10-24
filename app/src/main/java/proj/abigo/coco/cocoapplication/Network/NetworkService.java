@@ -5,6 +5,7 @@ import com.kakao.usermgmt.response.model.User;
 import java.util.List;
 
 import okhttp3.ResponseBody;
+import proj.abigo.coco.cocoapplication.MyFeed.MyFeed;
 import proj.abigo.coco.cocoapplication.MySaving.mySaving;
 import proj.abigo.coco.cocoapplication.Users;
 import retrofit2.Call;
@@ -26,5 +27,8 @@ public interface NetworkService {
 
     @GET("/savings/")
     Call<List<mySaving>> get_savings();
+
+    @GET("/Friend/")
+    Call<List<MyFeed>> get_feed();
 
 }

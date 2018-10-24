@@ -80,10 +80,9 @@ public class MyFeedAdapter extends BaseAdapter{
     }
 
 
-    public void addItem(String user_id, String user_img_path, String user_name, String savingMoney, String savingdate, String purpose){
+    public void addItem(String user_img_path, String user_name, String savingMoney, String savingdate, String purpose){
         MyFeed feed = new MyFeed();
 
-        feed.setUser_id(user_id);
         feed.setUser_img_path(user_img_path);
         feed.setUser_name(user_name);
         feed.setSavingMoney(savingMoney);
@@ -94,75 +93,4 @@ public class MyFeedAdapter extends BaseAdapter{
     }
 }
 
-
-//public class MyFeedAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-//
-//    private static final int MAX_POOL_SIZE = 10;
-//
-//    private Pools.SimplePool<View> mMyViewPool;
-//
-//    private Context mContext;
-//    private ArrayList<MyFeed> myFeeds_list;
-//
-//    public MyFeedAdapter(Context context, ArrayList <MyFeed> myFeeds) {
-//        mContext = context;
-//        myFeeds_list = myFeeds;
-//        mMyViewPool = new Pools.SynchronizedPool< >(MAX_POOL_SIZE);
-//    }
-//
-//    @Override
-//    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//
-//        final View view = LayoutInflater.from(mContext).inflate(R.layout.item_feed_list, parent, false);
-//        return new MyFeedItemViewHolder(view);
-//    }
-//
-//    @Override
-//    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-//
-//        final MyFeed feed = myFeeds_list.get(position-1);
-//        MyFeedItemViewHolder viewHolder = (MyFeedItemViewHolder) holder;
-//
-//        /* todo / feed 데이터 받아와서 보여주는 작업업 */
-//       viewHolder.txt_user_name.setText(feed.getUser_name());
-//       viewHolder.txt_save_date.setText(feed.getSave_date());
-//       viewHolder.txt_savingPurpose.setText(feed.getPurpose());
-//       viewHolder.txt_savingMoney.setText(feed.getSavingMoney());
-//
-//
-//        Glide
-//                .with(this.mContext)
-//                .load(feed.getUser_img_path())
-//                .fitCenter()
-//                .centerCrop()
-//                .crossFade()
-//                .override(200,200)
-//                .bitmapTransform(new CropCircleTransformation(mContext.getApplicationContext()))
-//                .into(viewHolder.img_user);
-//    }
-//
-//    @Override
-//    public int getItemCount() {
-//        return myFeeds_list == null ? 0 : myFeeds_list.size();
-//    }
-//
-//    private class MyFeedItemViewHolder extends RecyclerView.ViewHolder {
-//
-//        CardView cardView;
-//        ImageView img_user;
-//        TextView txt_user_name;
-//        TextView txt_savingMoney;
-//        TextView txt_save_date;
-//        TextView txt_savingPurpose;
-//
-//        public MyFeedItemViewHolder(View view) {
-//            super(view);
-//            cardView = (CardView)itemView.findViewById(R.id.cardView);
-//            img_user = (ImageView)view.findViewById(R.id.img_user);
-//            txt_user_name = (TextView)view.findViewById(R.id.txt_user_name);
-//            txt_savingMoney = (TextView)view.findViewById(R.id.txt_savingMoney);
-//            txt_save_date = (TextView)view.findViewById(R.id.txt_save_date);
-//            txt_savingPurpose = (TextView)view.findViewById(R.id.txt_savingPurpose);
-//        }
-//    }
 

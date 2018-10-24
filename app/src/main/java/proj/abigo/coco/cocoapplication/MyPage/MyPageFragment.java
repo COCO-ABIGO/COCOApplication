@@ -4,6 +4,7 @@ import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -20,6 +21,10 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 import proj.abigo.coco.cocoapplication.GlobalApplication;
@@ -41,25 +46,17 @@ import retrofit2.http.Path;
 public class MyPageFragment extends Fragment implements View.OnTouchListener {
 
     private ProgressBar progressBar;
-    private TextView txtPurpose, txtMoney;
+    private TextView txtPurpose, txtMoney, txtGoal, txtPercent, txtDate;
     private ListView list_mypage_menu;
-
-    int progressStep =5;
-
-    int globalVar =0;
-    int accum =0;
-
-    long startingMills = System.currentTimeMillis();
-    boolean isRunning = false;
-
-    Handler myHandler = new Handler();
 
     private NetworkService networkService;
 
     private MenuAdapter menuAdapter;
 
-    private String user_name, user_img_path, saving_purpose;
+    private String saving_purpose;
     private int user_id, saving_goal;
+
+    private int money_plus = 0;
 
 
     @Override
@@ -72,9 +69,10 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
 
         SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(getActivity().getApplicationContext());
         user_id = sharedPrefereneUtil.getSharedPreferences("user_id", 0);
+        saving_purpose = sharedPrefereneUtil.getSharedPreferences("saving_purpose", "");
+        saving_goal = sharedPrefereneUtil.getSharedPreferences("saving_goal", 0);
 
         Log.i("user", String.valueOf(user_id));
-
 
     }
 
@@ -129,31 +127,17 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
         menuAdapter.addItem(getActivity().getDrawable(R.drawable.friends), "친구 관리");
         menuAdapter.addItem(getActivity().getDrawable(R.drawable.setting), "설정");
 
-        txtPurpose.setText(saving_purpose    + "     까지      " );
-        final int saving_money = saving_goal - 1400;
-        txtMoney.setText(String.valueOf(saving_money + "  원 남았어요"));
-
-        int percent = 85;
-        progressBar.setProgress(percent);
-
-        ObjectAnimator ani = ObjectAnimator.ofInt(progressBar, "progress", 0, percent);
-        ani.setDuration(1500 * percent / 100);
-        ani.start();
-
-        Call<ResponseBody> getCall = networkService.get_users(user_id);
-        getCall.enqueue(new Callback<ResponseBody>() {
+        Call<List<mySaving>> getCall = networkService.get_savings();
+        getCall.enqueue(new Callback<List<mySaving>>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            public void onResponse(Call<List<mySaving>> call, Response<List<mySaving>> response) {
                 if(response.isSuccessful()){
-                    try{
-                        Log.i("get_user", response.body().string());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    List<mySaving> mySavings = response.body();
 
-//
-//                    txtMoney.setText(saving_goal);
-//                        txtPurpose.setText(saving_purpose);
+                    for(mySaving savings: mySavings){
+                        int money = Integer.valueOf(savings.getSavingmoney());
+                        money_plus += money;
+                    }
 
 
                 }else{
@@ -163,39 +147,30 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<List<mySaving>> call, Throwable t) {
                 Log.i ("Fail Messange : ",t.getMessage());
+
             }
-
         });
-//
-//        Animation an = new RotateAnimation(0.0f, 90.0f, 250f, 273f);
-//        an.setFillAfter(true);
 
-//        progressBar.startAnimation(an);
+        // 날짜 구하기
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.KOREA);
+        Date date = new Date();
+        String currentDate = sdf.format(date);
+        txtDate.setText(currentDate + " 기준");
 
-//        Call<Users> usersCall = networkService.get_users(7);
-//        usersCall.enqueue(new Callback<Users>() {
-//            @Override
-//            public void onResponse(Call<Users> call, Response<Users> response) {
-//                if(response.isSuccessful()){
-//
-//                    Users users = response.body();
-//                    Log.i("usercall", new Gson().toJson(response.body()));
-//                }
-//
-//               // saving_purpose = response.body().string();
-//               // saving_goal = response.body().getSaving_goal();
-//
-//               // Log.d("saving_purpose", saving_purpose);
-//              //  Log.d("saving_goal", saving_goal);
-//            }
-//
-//            @Override
-//            public void onFailure(Call<Users> call, Throwable t) {
-//
-//            }
-//        });
+        txtGoal .setText("목표금액 " + String.valueOf(saving_goal) + " 원 중");
+        txtPurpose.setText(saving_purpose + "   까지   ");
+        int money =  saving_goal - money_plus;
+        txtMoney.setText(String.valueOf(money) + "   원 남았어요 !");
+
+        int percent = (money_plus / saving_goal) * 100;
+        txtPercent.setText(String.valueOf(percent));
+        progressBar.setProgress(percent);
+
+        ObjectAnimator ani = ObjectAnimator.ofInt(progressBar, "progress", 0, percent);
+        ani.setDuration(1500 * percent / 100);
+        ani.start();
 
         setEvent();
     }
@@ -205,6 +180,9 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
         list_mypage_menu = (ListView)v.findViewById(R.id.list_mypage_menu);
         txtPurpose = (TextView)v.findViewById(R.id.txtPurpose);
         txtMoney = (TextView)v.findViewById(R.id.txtMoney);
+        txtGoal =  (TextView)v.findViewById(R.id.txtGoal);
+        txtPercent = (TextView)v.findViewById(R.id.txtPercent);
+        txtDate = (TextView)v.findViewById(R.id.txtDate);
     }
 
 //    public  void onStart(){

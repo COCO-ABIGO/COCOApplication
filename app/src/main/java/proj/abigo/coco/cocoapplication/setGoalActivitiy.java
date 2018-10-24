@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import java.io.IOException;
 
+import proj.abigo.coco.cocoapplication.MyFeed.MyFeedFragment;
 import proj.abigo.coco.cocoapplication.Network.NetworkService;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -100,7 +101,7 @@ public class setGoalActivitiy extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-            saving_money = Integer.valueOf(editMoney.toString());
+            saving_money = Integer.valueOf(editMoney.getText().toString());
 
             Log.d("user_id", String.valueOf(user_id));
             Log.d("user_name", user_name);
@@ -110,46 +111,59 @@ public class setGoalActivitiy extends AppCompatActivity {
             Log.d("saving_purpose", saving_purpose);
             Log.d("saving_goal", String.valueOf(saving_money));
 
+            SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(setGoalActivitiy.this);
+            sharedPrefereneUtil.putSharedPreferences("user_id", user_id);
+            sharedPrefereneUtil.putSharedPreferences("user_name", user_name);
+            sharedPrefereneUtil.putSharedPreferences("saving_purpose", saving_purpose);
+            sharedPrefereneUtil.putSharedPreferences("saving_goal", saving_money);
+
+            Toast.makeText(getApplicationContext(), user_name + " 님 반갑습니다:)", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+
             /* user_id, user_name, user_img_path, saving_purpose, saving_money REST POST 요청 */
 
-            Users users = new Users();
-            users.setUser_id(user_id);
-            users.setUser_name(user_name);
-            users.setUser_email(user_email);
-            users.setUser_img_path(user_img_path);
-            users.setSaving_purpose(saving_purpose);
-            users.setSaving_goal(saving_money);
+//            Users users = new Users();
+//            users.setUser_id(user_id);
+//            users.setUser_name(user_name);
+//            users.setUser_email(user_email);
+//            users.setUser_img_path(user_img_path);
+//            users.setSaving_purpose(saving_purpose);
+//            users.setSaving_goal(saving_money);
 
-            Call<Users> usersCall = networkService.post_users(users);
-                usersCall.enqueue(new Callback<Users>() {
-                    @Override
-                    public void onResponse(Call<Users> call, Response<Users> response) {
-                        if (response.isSuccessful()){
 
-                            /*sharedpreferene : user_id 저장 */
-                            SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(setGoalActivitiy.this);
-                            sharedPrefereneUtil.putSharedPreferences("user_id", user_id);
+//            Call<Users> usersCall = networkService.post_users(users) {
+//                    usersCall.enqueue(new Callback<Users>() {
+//                        @Override
+//                        public void onResponse(Call<Users> call, Response<Users> response) {
+//                            if (response.isSuccessful()) {
+//
+//                            /*sharedpreferene : user_id 저장 */
+//                                SharedPrefereneUtil sharedPrefereneUtil = new SharedPrefereneUtil(setGoalActivitiy.this);
+//                                sharedPrefereneUtil.putSharedPreferences("user_id", user_id);
+//
+//                                Toast.makeText(getApplicationContext(), user_name + " 님 반갑습니다:)", Toast.LENGTH_SHORT).show();
+//
+//                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//                                startActivity(intent);
+//                            } else {
+//                                int StatusCode = response.code();
+//                                try {
+//                                    Log.i("StatusCode: ", response.errorBody().string());
+//                                } catch (IOException e) {
+//                                    e.printStackTrace();
+//                                }
+//                            }
+//
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<Users> call, Throwable t) {
+//                            Toast.makeText(getApplicationContext(), "네트워크 연결 실패", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//                }
 
-                            Toast.makeText(getApplicationContext(),user_name+ " 님 반갑습니다:)", Toast.LENGTH_SHORT).show();
-
-                            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                            startActivity(intent);
-                        }else{
-                            int StatusCode = response.code();
-                            try{
-                                Log.i("StatusCode: ", response.errorBody().string());
-                            }catch (IOException e){
-                                e.printStackTrace();
-                            }
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<Users> call, Throwable t) {
-                        Toast.makeText(getApplicationContext(),"네트워크 연결 실패", Toast.LENGTH_SHORT).show();
-                    }
-                });
             }
         });
     }

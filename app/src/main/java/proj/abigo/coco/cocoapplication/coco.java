@@ -6,5 +6,5 @@ package proj.abigo.coco.cocoapplication;
 
 public class coco {
 
-    public final static String coco_url = "bd59fa41.ngrok.io";
+    public final static String coco_url = "f29687e2.ngrok.io";
 }

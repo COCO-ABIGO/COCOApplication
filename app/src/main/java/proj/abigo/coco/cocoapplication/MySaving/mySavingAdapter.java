@@ -61,7 +61,7 @@ public class mySavingAdapter extends BaseAdapter{
 
         mySaving mySaving = savingArrayList.get(i);
 
-        txt_saving_money.setText(mySaving.getSavingmoney() );
+        txt_saving_money.setText(mySaving.getSavingmoney() + " 원");
         txt_saving_date.setText(mySaving.getSavingdate());
         txt_saving_time.setText(mySaving.getSavingtime());
 
