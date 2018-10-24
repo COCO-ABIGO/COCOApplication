@@ -141,7 +141,7 @@
             android:layout_alignParentBottom="true"
             android:layout_margin="20dp"
             android:backgroundTint="#736efe"
-            android:src="@drawable/Refresh"
+            android:src="@drawable/refresh"
             app:pressedTranslationZ="7dp"/>
 
     </RelativeLayout>

@@ -57,6 +57,7 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
     private int user_id, saving_goal;
 
     private int money_plus = 0;
+    private int money = 0;
 
 
     @Override
@@ -135,7 +136,7 @@ public class MyPageFragment extends Fragment implements View.OnTouchListener {
                     List<mySaving> mySavings = response.body();
 
                     for(mySaving savings: mySavings){
-                        int money = Integer.valueOf(savings.getSavingmoney());
+                        money = Integer.valueOf(savings.getSavingmoney());
                         money_plus += money;
                     }
 
